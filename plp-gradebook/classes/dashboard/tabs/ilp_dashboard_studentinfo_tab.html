@@ -1,0 +1,188 @@
+<div class="clearfix"></div>
+<div class="reports-container">
+    <div class="left-reports">
+
+<?php 
+
+require_once '/srv/www/htdocs/dart/plp/query_db/Student.php';
+global $DB;
+$student_id = $_GET['user_id'];
+//echo "User id is: ".$student_id;
+//echo "User name is: " . $student->username ;
+
+// get the mdl_user record for the moodle id for the student
+$student = $DB->get_record('user', array('id' => $student_id));
+$CollegeEmail = $student->email;            
+$student = new student($student->username);
+
+
+echo '<table>';
+echo '  <tr>';
+echo '    <td width="220">Student id: </td>';
+echo '    <td width="400">'.($student->get_studentIDNumber(' ')).'</td>';
+echo '    <td width="70">Address:</td>';
+echo '    <td valign="top" width="200" rowspan="5">'.($student->get_address()).'</td>';
+echo '  </tr>';
+echo '  <tr>';
+echo '    <td>College e-mail:</td>';
+echo '    <td>';
+echo $CollegeEmail;
+echo    '</td>';
+echo '    <td>&nbsp;</td>';
+echo '  </tr>';
+echo '  <tr>';
+echo '    <td>Personal e-mail:</td>';
+echo '    <td>'.($student->get_studentEmail()).'</td>';
+echo '    <td>&nbsp;</td>';
+echo '  </tr>';
+echo '  <tr>';
+echo '    <td>Telephone number:</td>';
+echo '    <td>'.($student->get_studentPhone()).'</td>';
+echo '    <td>&nbsp;</td>';
+echo '  </tr>';
+echo '  <tr>';
+echo '    <td>Mobile number: </td>';
+echo '    <td>'.($student->get_studentMobile()).'</td>';
+echo '    <td>&nbsp;</td>';
+echo '  </tr>';
+
+echo '<tr>';
+echo "<td>Gender: </td>";
+echo "<td>".($student->get_studentGender(' '))."</td>";
+echo "</tr>";
+
+echo "<tr>";
+echo "<td>Date of birth: </td>";
+echo "<td>".($student->get_studentDOB(' '))."</td>";
+echo "</tr>";
+
+echo "<tr>";
+echo "<td>Ethnicity : </td>";
+echo "<td>".($student->get_studentEthnicity(' '))."</td>";
+echo "</tr>";
+
+#echo "<tr>";
+#echo "<td>Disability/Medical problem: </td>";
+#echo "<td>".($student->get_studentDisability(' '))."</td>";
+#echo "</tr>";
+
+#echo "<tr>";
+#echo "<td>Learning difficulty : </td>";
+#echo "<td>".($student->get_studentLearningDiff(' '))."</td>";
+#echo "</tr>";
+
+
+
+
+echo "<tr>";
+echo "<td valign='top'>Medical conditions : </td>";
+echo "<td>";
+#echo ($student->get_studentMedicalConditions(' '));
+$studentMedical = ($student->get_studentMedicalConditions(' '));
+$pieces = explode(",", $studentMedical);
+
+foreach ($pieces as $pieces => $value) {
+                                       $studentMedical2 = substr($value, strpos($value, ' '));
+echo $studentMedical2."<br>";
+}
+
+
+
+echo "</td>";
+echo "</tr>";
+
+
+echo "<tr>";
+echo "<td>AV Prior Attainment Score : </td>";
+echo "<td>".($student->get_studentAVScore(' '))."</td>";
+echo "</tr>";
+
+echo "<tr>";
+
+echo "</tr>";
+
+echo "</table>";
+
+//Attendance start
+echo "<h2><img src='http://vle.cant-col.ac.uk/theme/aardvark/pix/clock.png'><a href='#'>Attendance</a></h2>";
+$attendance = $student->get_attendance();
+
+echo "Total Attendance is {$attendance->total} %";
+echo "<img src='blank.gif' height='40' width='1'>";
+echo '<h3>% by month</h3>';
+echo "<table border='1'>";
+$attByMonth = $attendance->months;
+foreach($attByMonth as $key => $value) {
+$MonthNo = substr($key, -2, 2); // returns month
+$YearValue = substr($key, -7, 4); // returns year
+switch ($MonthNo) {
+    case 1:
+        $MonthNo = "January";
+        break;
+    case 2:
+        $MonthNo = "February";
+        break;
+    case 3:
+        $MonthNo = "March";
+        break;
+    case 4:
+        $MonthNo = "April";
+        break;
+    case 5:
+        $MonthNo = "May";
+        break;
+    case 6:
+        $MonthNo = "June";
+        break;
+    case 7:
+        $MonthNo = "July";
+        break;
+    case 8:
+        $MonthNo = "August";
+        break;
+    case 9:
+        $MonthNo = "September";
+        break;
+    case 10:
+        $MonthNo = "October";
+        break;
+    case 11:
+        $MonthNo = "November";
+        break;
+    case 12:
+        $MonthNo = "December";
+        break;
+}
+
+
+echo "<tr><td align='right'>$MonthNo $YearValue</td><td align='right'>$value %</td></tr>";
+}
+echo "</tr>";
+echo "</table>";
+echo '<br>';
+
+echo '<h3>% by course</h3>';
+echo "<table border='1'>";
+$attByMonth = $attendance->subjects;
+foreach($attByMonth as $key => $value) {
+
+  echo "<tr><td>$key </td><td align='right'>$value %</td></tr>";
+}
+echo "</tr>";
+echo "</table>";
+echo '<br>';
+
+
+
+
+?>
+
+    </div>
+
+    <div class="clearfix">
+
+
+    </div>
+
+
+</div>

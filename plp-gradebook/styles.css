@@ -1,0 +1,490 @@
+/**
+ * Styles for the ILP
+ *
+ * @copyright &copy; 2011 University of London Computer Centre
+ * @author http://www.ulcc.ac.uk, http://moodle.ulcc.ac.uk
+ * @license http://www.gnu.org/copyleft/gpl.html GNU Public License
+ * @package ILP
+ * @version 2.0
+ */
+ 
+/* general */
+
+.ilp .ilp_print_icon{
+	float:right;
+	width:32px;
+	height:32px;
+} 
+.ilp .commands {
+	display:inline;
+	padding-left: 3px;
+} 
+.ilp #plugin_nodata{
+	background: #FFFCE5;
+	color: #884400; 
+	padding: 10px; 
+	border:1px solid #EEDD55;
+}
+.ilp h2{
+	font-size: 2em;
+	margin: 10px 0;
+} 
+.ilp h2.main {
+    text-align: center;
+}
+.ilp .removeborder td{
+	border:0;
+	font-weight: bold;
+	text-align: center;
+}
+.ilp .removeborder td form{
+	padding: 5px 0;
+}
+/* overflow in tables*/
+
+.ilp .centable{
+	overflow: auto;
+    overflow-y: hidden;
+	-ms-overflow-y: hidden;
+}
+
+/* Head info section */
+
+.ilp #ilp-container { 
+	padding:0; 
+	margin: 0; 
+	width: 100%; 
+}
+.ilp #studentinfo-container{ 
+	width: 100%;
+	display:block; 
+	margin: 0 0 20px 0;
+}
+.ilp #studentinfo-container:after {
+    content:".";
+    display:block;
+    height:0;
+    clear:both;
+    visibility:hidden;
+}
+.ilp #left-studentinfo { 
+	float:left; 
+	width:10%; 
+	padding:0 10px; 
+}
+.ilp #middle-studentinfo { 
+	float:left; 
+	width:20%;
+	padding:0 10px; 
+}
+.ilp #right-studentinfo { 
+	float:right; 
+	width:60%;
+	padding:0 10px;
+	border-left: 1px solid #ccc;
+}
+.ilp #studentinfo-container p{ 
+	padding: 0; 
+	margin: 3px 0;
+}
+
+.ilp #ilp_mis_attendance_plugin_mcb	{
+    overflow: auto;
+    overflow-y: hidden;
+	-ms-overflow-y: hidden;
+}
+.ilp #ilp_mis_attendance_plugin_simple{
+	width: 100%;
+	display:block; 
+	margin: 0 0 10px 0;
+}
+.ilp .percentagebar {
+	margin:	2px;
+	border:	1px solid #ccc;
+	width:	200px;
+	height:	10px;
+	float:	left;
+	display: 	block;
+}
+.ilp .percentage-green{
+	background:	green;
+	height:	10px;
+}
+.ilp .percentage-amber{
+	background:	orange;
+	height:	10px;
+}
+
+.clearfix:after { visibility: hidden; display: block; font-size: 0; content: " "; clear: both; height: 0; } /* slightly enhanced, universal clearfix hack - http://perishablepress.com/press/2008/02/05/lessons-learned-concerning-the-clearfix-css-hack/ */
+.clearfix { display: inline-block; }
+/* start commented backslash hack \*/ * html .clearfix { height: 1%; }
+.clearfix { display: block; } /* close commented backslash hack */
+
+/* ENTRIES */
+
+.ilp .entries-container{
+	width: 80%;
+	display:block; 
+	margin: 0 auto;
+	border-bottom: 1px solid #ddd;
+}
+.ilp .entries-container:after {
+    content:".";
+    display:block;
+    height:0;
+    clear:both;
+    visibility:hidden;
+}
+.ilp  #left-entries { 
+	float:left; 
+	width:6%; 
+	padding:10px; 
+}
+.ilp  #middle-entries { 
+	float:left; 
+	width:60%;
+	padding:10px; 
+}
+.ilp  #right-entries { 
+	float:right; 
+	width:20%;
+	padding:20px;
+}
+.ilp  #middle-entries h2{
+	font-size: 1.1em;
+	font-weight: bold;
+	margin: 0 0 5px 0; 
+	padding: 0;
+}
+.ilp  #middle-entries p{
+	padding:0; 
+	margin: 3px 0;
+}
+.ilp  #right-entries .add a{ 
+	background: #333; 
+	color: #fff; 
+	padding: 5px; 
+	text-decoration:none;
+}
+.ilp  #right-entries .add a:hover{ 
+	text-decoration:underline;
+}
+.ilp .entries-container .icon_small img{
+	height:75px;
+	width: 75px;
+}
+.ilp #student_list_container {
+   overflow: auto;
+}
+
+/* JAVASCRIPT CSS DO NOT REMOVE */
+
+.ilp form.hidden, .ilp img.hidden  .ilp input.hidden {
+    display             : none;
+    visibility			: hidden;
+}
+.ilp form.nothidden {
+    display             : inline;
+    visibility			: visible;
+    
+}
+
+/* ATTENDANCE */
+
+/* ATTENDANCE - Register by Class */
+
+.ilp #ilp_mis_attendance_plugin_byclass_container{
+	width: 80%;
+	display:block; 
+	margin: 0 auto;
+}
+.ilp #ilp_mis_attendance_plugin_byclass_container:after {
+    content:".";
+    display:block;
+    height:0;
+    clear:both;
+    visibility:hidden;
+}
+.ilp #ilp_mis_attendance_plugin_byclass{
+	margin: 10px 0;
+}
+/* ATTENDANCE - Register */
+
+.ilp #ilp_mis_attendance_plugin_register th{
+	text-align:left;
+	background: #f3f3f3;
+}
+.ilp #ilp_mis_attendance_plugin_register .course-attendance{
+	width:33%;
+	float:left;
+	margin-right:20px;
+	display:inline;
+}
+.ilp #ilp_mis_attendance_plugin_register .attendance{
+	width:33%;
+	margin-right: 20px; 
+	float:left;
+}
+.ilp #ilp_mis_attendance_plugin_register{ 
+	width: 100%;
+	display:block; 
+	margin: 0;
+	padding: 0;
+}
+.ilp #ilp_mis_attendance_plugin_register .attendance-grid{
+    overflow: auto;
+    overflow-y: hidden;
+	-ms-overflow-y: hidden;
+}
+.ilp #ilp-attendance-grid {
+	border:1px solid #ddd;
+}
+.ilp #ilp-attendance-grid .termweeks{	
+	font-weight: bold;
+}
+.ilp #ilp-attendance-grid th{
+	border:1px solid #ddd;
+	background: #666;
+	color: #fff;
+}
+.ilp #ilp-attendance-grid td{
+	border:1px solid #ddd;
+}
+/** LEARNER PROFILE - Initial Assessment */
+
+.ilp #ilp_mis_learner_profile_assessments{
+	width: 30%;
+	display:block; 
+	margin: 10px auto;
+}
+.ilp #ilp_mis_learner_profile_assessments:after {
+    content:".";
+    display:block;
+    height:0;
+    clear:both;
+    visibility:hidden;
+}
+.ilp #ilp_mis_learner_profile_assessments h3	{
+	border-bottom: 2px solid #000;
+}
+.ilp #ilp_mis_learner_profile_assessments th{
+	text-align:left;
+}
+
+/** LP - Contact */
+
+.ilp #ilp_mis_learner_profile_contact{
+	width: 80%;
+	display:block; 
+	margin: 0 auto;
+}
+.ilp #ilp_mis_learner_profile_contact:after {
+    content:".";
+    display:block;
+    height:0;
+    clear:both;
+    visibility:hidden;
+}
+.ilp #ilp_mis_learner_profile_contact h3{
+	border-bottom: 2px solid #000;
+}
+.ilp #ilp_mis_learner_profile_contact .contactboxes	{
+	width:30%;
+	display:inline;
+	padding:10px;
+	float:	left;	
+}
+
+/** LP - Qualifications */
+
+#ilp_mis_learner_profile_qualifications{
+	width: 50%;
+	display:block; 
+	margin: 0 auto;
+}
+#ilp_mis_learner_profile_qualifications:after {
+    content:".";
+    display:block;
+    height:0;
+    clear:both;
+    visibility:hidden;
+}
+
+/** LP - Exam Timetable **/
+
+.ilp #ilp_mis_misc_exam_timetable{
+	width: 50%;
+	display:block; 
+	margin: 0 auto;
+}
+.ilp #ilp_mis_misc_exam_timetable:after {
+    content:".";
+    display:block;
+    height:0;
+    clear:both;
+    visibility:hidden;
+}
+/** LP - Lesson Timetable **/
+
+.ilp #ilp_mis_misc_timetable{
+	width: 50%;
+	display:block; 
+	margin: 0 auto;
+}
+.ilp #ilp_mis_misc_timetable:after {
+    content:".";
+    display:block;
+    height:0;
+    clear:both;
+    visibility:hidden;
+}
+
+/** MIS Plugins -  **/
+
+.ilp #ilp_mis_misc_fees{
+	width: 30%;
+	display:block; 
+	margin: 0 auto;
+}
+.ilp #ilp_mis_misc_fees:after {
+    content:".";
+    display:block;
+    height:0;
+    clear:both;
+    visibility:hidden;
+}
+.ilp #ilp_mis_misc_fees h3	{
+	border-bottom: 2px solid #000;
+}
+.ilp #ilp_mis_misc_fees th{
+	text-align:left;
+}
+
+/* Reports section */
+
+.ilp .report_state{
+	width: 80%;
+	display:block; 
+	margin: 20px auto;
+}
+.ilp .report_state:after {
+    content:".";
+    display:block;
+    height:0;
+    clear:both;
+    visibility:hidden;
+}
+.ilp .reports-container{
+	width:100%;
+	border-bottom: 1px solid #ccc; 
+	background: #f1f1f1;
+}
+.ilp .left-reports { 
+	float:left; 
+	width:70%; 
+	padding:10px;
+}
+.ilp .right-reports { 
+	float:left; 
+	width:20%;
+	padding:10px;
+}
+.ilp .reports-comments{ 
+	padding: 0;
+	margin: 0 0 0 2%; 
+	width: 96%;
+}
+.ilp .reports-container p{
+	padding: 0; 
+	margin: 3px 10px;
+}
+.ilp .view-comments{
+	background: #333333; 
+	color: #ffffff; 
+	padding: 5px 10px; 
+	margin: 0 0 10px 0;
+	height: 20px;
+}
+.ilp .view-comments h3{
+	font-size: 1.3em; 
+	margin: 0; 
+	padding: 0; float: left;
+}
+.ilp .view-comments .comment p{
+	padding: 0; 
+	margin: 5px 0;
+}
+.ilp .view-comments .add a{ 
+	background: #ffffff; 
+	color: #333333; 
+	padding: 2px; 
+	text-decoration:none;
+}
+.ilp .view-comments .add a:hover{ 
+	text-decoration:underline;
+}
+.ilp .comment {
+	padding: 10px 2%;
+}
+.ilp .comment .info{
+	font-size: .9em; 
+	text-align: right; 
+	border-top: 1px solid #ccc;
+	padding: 5px 10px 10px 10px; 
+}
+
+/* Tabs */ 
+
+.ilp .tabtree .tabrow0 .tabrow1 {
+	background:#FFFFFF;
+}
+.ilp .tabtree {
+	margin-bottom: 3em;
+}
+.tabtree .tabrow0 .tabrow1 { 
+	border-bottom: 2px solid #ddd;
+}
+.tabtree .tabrow1 li a, .tabtree .tabrow1 li a:hover, .tabtree .tabrow1 li a span, .tabtree .tabrow1 li a:hover span {
+    padding: 0 5px !important;
+}
+/* Fix for alignment of tabs in IE 7*/
+.tabtree ul li.here ul {
+	clear:left;
+	float:left; 
+	list-style:none; 
+	margin: 0; 
+	padding: 0; 
+	position:relative; 
+	left:0; 
+	text-align:center; 
+	width: 100%;
+} 
+/* Tables */ 
+
+.ilp th{
+	font-weight: bold;
+	text-align:left;
+}
+
+/* Icons */ 
+
+.ilp .icon_small {
+	width:50px;
+	height:50px;
+	margin-right:10px;	
+}
+.ilp .icon_med {
+	width:50px;
+	height:50px;
+	margin-right:10px;	
+	display:inline;
+	vertical-align: middle;
+}
+/* Forms */ 
+
+.ilp #filter_form label{
+	font-weight:bold;
+}
+
+/* Buttons */ 
+
