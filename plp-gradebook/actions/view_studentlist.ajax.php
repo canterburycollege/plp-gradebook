@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Ajax file for view_students
  *
@@ -8,8 +9,6 @@
  * @package ILP
  * @version 2.0
  */
-
-
 require_once('../configpath.php');
 
 global $USER, $CFG, $SESSION, $PARSER, $OUTPUT;
@@ -53,41 +52,41 @@ $columns = array('picture', 'fullname', 'u_status');
 
 $headers[] = 'ILP';
 $columns[] = 'view';
-$nosorting = array('picture', 'u_status','view');
+$nosorting = array('picture', 'u_status', 'view');
 
 //we need to check if the mis plugin has been setup if it has we will get the attendance and punctuality figures
 
-$attendanceclass				=	get_config('block_ilp','attendplugin');
-$misavailable 					= 	false;
-$misattendavailable				=	false;
-$mispunctualityavailable		=	false;
+$attendanceclass = get_config('block_ilp', 'attendplugin');
+$misavailable = false;
+$misattendavailable = false;
+$mispunctualityavailable = false;
 
 if (!empty($attendanceclass)) {
-	$misclassfile = $CFG->dirroot . "/blocks/ilp/classes/dashboard/mis/{$attendanceclass}.php";	
-	if (file_exists($misclassfile)) {
-		include_once $misclassfile;
-		
-		$misavailable	=	true;
-		
-		//create an instance of the MIS class
-    	$misclass = new $attendanceclass();
-		
-    	//check if the methods exists
-    	if (method_exists($misclass, 'getAttendance'))	{
-   		    $headers[] = get_string('attendance', 'block_ilp');
-   			$columns[] = 'u_attendcance';
-   			$nosorting[] = 'u_attendcance';
-   			$misattendavailable = true;
-    	}
-    	
-    	//check if the methods exists
-	    if (method_exists($misclass, 'getAttendance'))	{
-    		$headers[] = get_string('punctuality', 'block_ilp');
-    		$columns[] = 'u_punctuality';
-    		$nosorting[] = 'u_punctuality';
-    		$mispunctualityavailable = true;    		
-    	}
-	}
+    $misclassfile = $CFG->dirroot . "/blocks/ilp/classes/dashboard/mis/{$attendanceclass}.php";
+    if (file_exists($misclassfile)) {
+        include_once $misclassfile;
+
+        $misavailable = true;
+
+        //create an instance of the MIS class
+        $misclass = new $attendanceclass();
+
+        //check if the methods exists
+        if (method_exists($misclass, 'getAttendance')) {
+            $headers[] = get_string('attendance', 'block_ilp');
+            $columns[] = 'u_attendcance';
+            $nosorting[] = 'u_attendcance';
+            $misattendavailable = true;
+        }
+
+        //check if the methods exists
+        if (method_exists($misclass, 'getAttendance')) {
+            $headers[] = get_string('punctuality', 'block_ilp');
+            $columns[] = 'u_punctuality';
+            $nosorting[] = 'u_punctuality';
+            $mispunctualityavailable = true;
+        }
+    }
 }
 
 //get all enabled reports in this ilp
@@ -100,11 +99,8 @@ $maxreports = get_config('block_ilp', 'ilp_max_reports');
 $maxreports = (!empty($maxreports)) ? $maxreports : ILP_DEFAULT_LIST_REPORTS;
 
 //set the number of report columns to display
-
 //removed as we no longer need the horizonatal scrolling
 //$reports	=	$flextable->limitcols($reports,$maxreports);
-
-
 //we are going to create headers and columns for all enabled reports 
 foreach ($reports as $r) {
     $headers[] = $r->name;
@@ -137,7 +133,7 @@ $flextable->initialbars(true);
 $flextable->setup();
 
 if (!empty($course_id)) {
-    $users = $dbc->get_course_users($course_id,$group_id);  
+    $users = $dbc->get_course_users($course_id, $group_id);
 } else {
     $users = $dbc->get_user_tutees($USER->id);
 }
@@ -160,8 +156,7 @@ if (!empty($status_id)) {
 }
 
 //we only want to get the student matrix if students have been provided
-$studentslist = (!empty($students)) ? $dbc->get_students_matrix($flextable, $students, $status_id, $notstatus_ids)
-        : false;
+$studentslist = (!empty($students)) ? $dbc->get_students_matrix($flextable, $students, $status_id, $notstatus_ids) : false;
 //get the default status item which will be used as the status for students who
 //have not entered their ilp and have not had a status assigned
 $defaultstatusitem_id = get_config('block_ilp', 'defaultstatusitem');
@@ -178,65 +173,67 @@ $course_param = (!empty($course_id)) ? "&course_id={$course_id}" : '';
 
 
 
-$coursearg = ( $course_id ) ? "&course=$course_id" : '' ;
+$coursearg = ( $course_id ) ? "&course=$course_id" : '';
 if (!empty($studentslist)) {
     foreach ($studentslist as $student) {
         $data = array();
-		
-        $userprofile	=	(stripos($CFG->release,"2.") === false) ? 'view.php' : 'profile.php';
-                
+
+        $userprofile = (stripos($CFG->release, "2.") === false) ? 'view.php' : 'profile.php';
+
         $data['picture'] = $OUTPUT->user_picture($student, array('return' => true, 'size' => 50));
         $data['fullname'] = "<a href='{$CFG->wwwroot}/user/{$userprofile}?id={$student->id}{$coursearg}' class=\"userlink\">" . fullname($student) . "</a>";
         //if the student status has been set then show it else they have not had there ilp setup
         //thus there status is the default
-        
-        
+
+
         $data['u_status'] = (!empty($student->u_status)) ? $student->u_status : $status_item;
         //if ($data['u_status'] == "green") { $data['u_status']="<p style='color:#08FF2C'> Green</p>";}
 
-       switch  ($data['u_status']) {
-           case "green":
-           $data['u_status']="<p style='color:#08FF2C'> Green</p>";
-           break;
-       
-                      case "orange":
-           $data['u_status']="<p style='color:#FF750A'> Orange</p>";
-           break;
-       
-                      case "red":
-           $data['u_status']="<p style='color:#FF0804'> Red</p>";
-           break;
-       }
- 
+        switch ($data['u_status']) {
+            case "green":
+                $data['u_status'] = "<p style='color:#08FF2C'> Green</p>";
+                break;
 
-        
-        
+            case "orange":
+                $data['u_status'] = "<p style='color:#FF750A'> Orange</p>";
+                break;
+
+            case "red":
+                $data['u_status'] = "<p style='color:#FF0804'> Red</p>";
+                break;
+        }
+
+
+
+
         $data['view'] = "<a href='{$CFG->wwwroot}/blocks/ilp/actions/view_main.php?user_id={$student->id}{$course_param}' >" . get_string('viewplp', 'block_ilp') . "</a>";
 
-        
-		//we will only attempt to get MIS data if an attendace plugin has been selected in the settings page
-		
+        // @test - add link to list of course gradebooks for student
+        $data['grades'] = "<a href='#'>blank url</a>";
+
+        //we will only attempt to get MIS data if an attendace plugin has been selected in the settings page
+
         if (!empty($misavailable)) {
-        	$misclass = new $attendanceclass();
-	        //set the data for the student in question
-	        $misclass->set_data($student->idnumber);
-	        if (!empty($misattendavailable)) {
-	        	$attendpercent	=	0;
-	            $attendpercent = $misclass->getAttendance();
-	            //we only want to try to find the percentage if we can get the total possible
-	            // attendance else set it to 0;
-	            $data['u_attendcance'] = (!empty($attendpercent)) ? $attendpercent : 0;
-	        }
-	
-	        if (!empty($mispunctualityavailable)) {
-	            $punctpercent	=	0;
-	        	$punctpercent = $misclass->getPunctuality();
-	            //we only want to try to find the percentage if we can get the total possible
-	            // punctuality else set it to 0;
-	            $data['u_punctuality'] = (!empty($punctpercent)) ? $punctpercent : 0;
-	        }
+            $misclass = new $attendanceclass();
+            //set the data for the student in question
+            $misclass->set_data($student->idnumber);
+            if (!empty($misattendavailable)) {
+                $attendpercent = 0;
+                $attendpercent = $misclass->getAttendance();
+                //we only want to try to find the percentage if we can get the total possible
+                // attendance else set it to 0;
+                $data['u_attendcance'] = (!empty($attendpercent)) ? $attendpercent : 0;
+            }
+
+            if (!empty($mispunctualityavailable)) {
+                $punctpercent = 0;
+                $punctpercent = $misclass->getPunctuality();
+                //we only want to try to find the percentage if we can get the total possible
+                // punctuality else set it to 0;
+                $data['u_punctuality'] = (!empty($punctpercent)) ? $punctpercent : 0;
+            }
         }
-        
+
         foreach ($reports as $r) {
 
             //get the number of this report that have been created
@@ -251,34 +248,32 @@ if (!empty($studentslist)) {
                 $achievedentries = $dbc->count_report_entries_with_state($r->id, $student->id, ILP_STATE_PASS);
                 //we need to count the number of entries that have a notcounted status
                 $notcountedentries = $dbc->count_report_entries_with_state($r->id, $student->id, ILP_STATE_NOTCOUNTED);
-                $createdentries     =   $createdentries     -   $notcountedentries;
+                $createdentries = $createdentries - $notcountedentries;
 
-                $reporttext         =   "<a href='{$CFG->wwwroot}/blocks/ilp/actions/view_main.php?user_id={$student->id}{$course_param}&selectedtab=6&tabitem=6' >".$achievedentries . "/" . $createdentries . " " . get_string('achieved', 'block_ilp')."</a>";
+                $reporttext = "<a href='{$CFG->wwwroot}/blocks/ilp/actions/view_main.php?user_id={$student->id}{$course_param}&selectedtab=6&tabitem=6' >" . $achievedentries . "/" . $createdentries . " " . get_string('achieved', 'block_ilp') . "</a>";
             }
-            
-        	
-			if ($dbc->has_plugin_field($r->id,'ilp_element_plugin_date_deadline')) {
-				$inprogressentries	=	$dbc->count_report_entries_with_state($r->id,$student->id,ILP_STATE_UNSET,false);
-				$inprogentries 		=	array(); 
-				
-				if (!empty($inprogressentries)) {
-					foreach ($inprogressent as $e) {
-						$inprogentries[]	=	$e->id;
-					}
-				}
-				
-				//get the number of entries that are overdue
-				$overdueentries			=	$dbc->count_overdue_report($r->id,$student->id,$inprogentries,time());
-				$reporttext				.=	(!empty($overdueentries))?  "<br />".$overdueentries." ".get_string('reportsoverdue','block_ilp') : "";	
-			}
+
+
+            if ($dbc->has_plugin_field($r->id, 'ilp_element_plugin_date_deadline')) {
+                $inprogressentries = $dbc->count_report_entries_with_state($r->id, $student->id, ILP_STATE_UNSET, false);
+                $inprogentries = array();
+
+                if (!empty($inprogressentries)) {
+                    foreach ($inprogressent as $e) {
+                        $inprogentries[] = $e->id;
+                    }
+                }
+
+                //get the number of entries that are overdue
+                $overdueentries = $dbc->count_overdue_report($r->id, $student->id, $inprogentries, time());
+                $reporttext .= (!empty($overdueentries)) ? "<br />" . $overdueentries . " " . get_string('reportsoverdue', 'block_ilp') : "";
+            }
 
             $data[$r->id] = $reporttext;
         }
 
         $lastentry = $dbc->get_lastupdate($student->id);
-        $data['lastupdated'] = (!empty($lastentry->timemodified))
-                ? userdate($lastentry->timemodified, get_string('strftimedate', 'langconfig'))
-                : get_string('notapplicable', 'block_ilp');
+        $data['lastupdated'] = (!empty($lastentry->timemodified)) ? userdate($lastentry->timemodified, get_string('strftimedate', 'langconfig')) : get_string('notapplicable', 'block_ilp');
 
         $flextable->add_data_keyed($data);
     }
