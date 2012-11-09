@@ -216,6 +216,7 @@ if (!empty($studentslist)) {
         
         // @test - add link to list of course gradebooks for student
         $data['grades'] = "<a href='{$CFG->wwwroot}/grade/report/overview/index.php?userid={$student->id}{$course_param}'>View grades</a>";
+        // this is A CHANGE 
         
 		//we will only attempt to get MIS data if an attendace plugin has been selected in the settings page
 		
