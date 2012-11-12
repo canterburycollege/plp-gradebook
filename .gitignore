@@ -1,2 +1,6 @@
 /plp-gradebook/nbproject/private/
+<<<<<<< HEAD
 plp-gradebook/nbproject/*
+=======
+plp-gradebook/nbproject/private/private.properties
+>>>>>>> gradebookCol

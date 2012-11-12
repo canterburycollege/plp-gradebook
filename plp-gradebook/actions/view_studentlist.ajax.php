@@ -53,6 +53,7 @@ $columns = array('picture', 'fullname', 'u_status');
 
 $headers[] = 'ILP';
 $columns[] = 'view';
+$columns[] = 'grades';
 $nosorting = array('picture', 'u_status','view');
 
 //we need to check if the mis plugin has been setup if it has we will get the attendance and punctuality figures
@@ -212,7 +213,10 @@ if (!empty($studentslist)) {
         
         
         $data['view'] = "<a href='{$CFG->wwwroot}/blocks/ilp/actions/view_main.php?user_id={$student->id}{$course_param}' >" . get_string('viewplp', 'block_ilp') . "</a>";
-
+        
+        // @test - add link to list of course gradebooks for student
+        $data['grades'] = "<a href='{$CFG->wwwroot}/grade/report/overview/index.php?userid={$student->id}{$course_param}'>View grades</a>";
+        // this is A CHANGE 
         
 		//we will only attempt to get MIS data if an attendace plugin has been selected in the settings page
 		
