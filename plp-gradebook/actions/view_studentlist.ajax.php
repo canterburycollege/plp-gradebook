@@ -52,6 +52,7 @@ $headers = array(
 $columns = array('picture', 'fullname', 'u_status');
 
 $headers[] = 'ILP';
+$headers[] = 'Grade Overview';
 $columns[] = 'view';
 $columns[] = 'grades';
 $nosorting = array('picture', 'u_status','view','grades');
@@ -216,7 +217,7 @@ if (!empty($studentslist)) {
         
         // add link to list of course gradebooks for student
         $data['grades'] = "<a href='{$CFG->wwwroot}/blocks/ilp/actions/view_grade_overview.php?userid={$student->id}{$course_param}'>View grades</a>";
-        
+      
 	//we will only attempt to get MIS data if an attendace plugin has been selected in the settings page
         if (!empty($misavailable)) {
         	$misclass = new $attendanceclass();
