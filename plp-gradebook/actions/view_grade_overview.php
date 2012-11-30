@@ -19,9 +19,7 @@
 require_once '../../../config.php';
 require_once $CFG->libdir.'/gradelib.php';
 require_once $CFG->dirroot.'/grade/lib.php';
-//require_once $CFG->dirroot.'/grade/report/overview/lib.php';
-## replace with copy in gradebook project includes dir
-require_once '../includes/grade/report/overview/lib.php';
+require_once $CFG->dirroot.'/grade/report/overview/lib.php';
 
 $courseid = required_param('course_id', PARAM_INT);
 $userid   = optional_param('userid', $USER->id, PARAM_INT);
