@@ -215,7 +215,7 @@ if (!empty($studentslist)) {
         $data['view'] = "<a href='{$CFG->wwwroot}/blocks/ilp/actions/view_main.php?user_id={$student->id}{$course_param}' >" . get_string('viewplp', 'block_ilp') . "</a>";
         
         // add link to list of course gradebooks for student
-        $data['grades'] = "<a href='{$CFG->wwwroot}/blocks/ilp/actions/view_grade_overview.php?userid={$student->id}{$course_param}'>View grades1</a>";
+        $data['grades'] = "<a href='{$CFG->wwwroot}/blocks/ilp/actions/view_grade_overview.php?userid={$student->id}{$course_param}'>View grades</a>";
         
 	//we will only attempt to get MIS data if an attendace plugin has been selected in the settings page
         if (!empty($misavailable)) {
