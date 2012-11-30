@@ -54,7 +54,7 @@ $columns = array('picture', 'fullname', 'u_status');
 $headers[] = 'ILP';
 $columns[] = 'view';
 $columns[] = 'grades';
-$nosorting = array('picture', 'u_status','view');
+$nosorting = array('picture', 'u_status','view','grades');
 
 //we need to check if the mis plugin has been setup if it has we will get the attendance and punctuality figures
 
