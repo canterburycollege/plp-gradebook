@@ -18,7 +18,9 @@
 // dummy commit
 require_once '../../../config.php';
 require_once $CFG->libdir.'/gradelib.php';
-require_once $CFG->dirroot.'/grade/lib.php';
+##require_once $CFG->dirroot.'/grade/lib.php';
+// replace lib.php with custom version
+require_once '../includes/grade/lib.php';
 require_once $CFG->dirroot.'/grade/report/overview/lib.php';
 
 $courseid = required_param('course_id', PARAM_INT);

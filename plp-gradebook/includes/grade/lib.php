@@ -378,6 +378,7 @@ function print_grade_plugin_selector($plugin_info, $active_type, $active_plugin,
     }
 
     // finally print/return the popup form
+    /*
     if ($count > 1) {
         $select = new url_select($menu, $active, null, 'choosepluginreport');
 
@@ -390,6 +391,9 @@ function print_grade_plugin_selector($plugin_info, $active_type, $active_plugin,
         // only one option - no plugin selector needed
         return '';
     }
+    */
+    // do not render report plugin select
+    return ''; 
 }
 
 /**
