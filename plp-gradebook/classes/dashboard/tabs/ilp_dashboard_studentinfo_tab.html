@@ -10,7 +10,7 @@ $student_id = $_GET['user_id'];
 //echo "User id is: ".$student_id;
 //echo "User name is: " . $student->username ;
 
-// get the mdl_user record for the moodle id for the student
+// get the mdl_user record for the moodle id for the student.
 $student = $DB->get_record('user', array('id' => $student_id));
 $CollegeEmail = $student->email;            
 $student = new student($student->username);
