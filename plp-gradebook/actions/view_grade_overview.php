@@ -17,7 +17,9 @@
 
 require_once '../../../config.php';
 require_once $CFG->libdir.'/gradelib.php';
-require_once $CFG->dirroot.'/grade/lib.php';
+##require_once $CFG->dirroot.'/grade/lib.php';
+// replace lib.php with custom version
+require_once '../includes/grade/lib.php';
 require_once $CFG->dirroot.'/grade/report/overview/lib.php';
 
 $courseid = required_param('course_id', PARAM_INT);
@@ -117,7 +119,8 @@ if (has_capability('moodle/grade:viewall', $systemcontext)) { //Admins will see 
     } else { // Only show one user's report
         $report = new grade_report_overview($userid, $gpr, $context);
         print_grade_page_head($courseid, 'report', 'overview', get_string('pluginname', 'gradereport_overview'). ' - '.fullname($report->user));
-        groups_print_course_menu($course, $gpr->get_return_url('index.php?id='.$courseid, array('userid'=>0)));
+        // do not render separate groups select
+        ##groups_print_course_menu($course, $gpr->get_return_url('index.php?id='.$courseid, array('userid'=>0)));
 
         if ($user_selector) {
             $renderer = $PAGE->get_renderer('gradereport_overview');
