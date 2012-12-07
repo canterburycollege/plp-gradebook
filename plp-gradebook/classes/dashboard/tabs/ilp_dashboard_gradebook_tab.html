@@ -22,11 +22,29 @@ HTML template for Grabebook tab.
 
 -->
 
+
 <!DOCTYPE html>
 <div class="clearfix"></div>
 <div class="reports-container">
     <div class="left-reports">
+        
+        <?php 
+//get the current logged in user id
+global $USER;
+$user_id = $USER->id;
+echo "Logged in user ID is: $user_id";
 
+//check if user is allowed to view others ilp
+$context = get_context_instance(CONTEXT_SYSTEM);
+$access_viewotherilp = has_capability('block/ilp:viewotherilp', $context);
+if  ($access_viewotherilp==1) {$access_viewotherilp = "Yes";
+                               $id_source = $_GET['user_id'];} else {$access_viewotherilp = "No";
+                                                                      $id_source = $USER->id;}
+echo "<br>Can view other ILPs?: ".$access_viewotherilp;
+
+echo "<br>The user id we will use is ".$id_source;
+
+?>
 
     </div>
 

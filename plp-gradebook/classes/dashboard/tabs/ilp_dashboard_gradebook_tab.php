@@ -134,8 +134,10 @@ class ilp_dashboard_gradebook_tab extends ilp_dashboard_tab {
 
     function ilp_display_gradebook()	{
         global	$CFG;
-
         include($CFG->dirroot.'/blocks/ilp/classes/dashboard/tabs/ilp_dashboard_gradebook_tab.html');
+        
+
+        
     }
 
 
