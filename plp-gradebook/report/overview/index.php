@@ -15,15 +15,15 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-require_once '../../../config.php';
+require_once '../../../../config.php';
 require_once $CFG->libdir.'/gradelib.php';
 require_once $CFG->dirroot.'/grade/lib.php';
-require_once $CFG->dirroot.'/grade/report/overview/lib.php';
+require_once 'lib.php';
 
-$courseid = required_param('id', PARAM_INT);
+$courseid = required_param('course_id', PARAM_INT);
 $userid   = optional_param('userid', $USER->id, PARAM_INT);
 
-$PAGE->set_url(new moodle_url('/grade/report/overview/index.php', array('id'=>$courseid)));
+$PAGE->set_url(new moodle_url('/blocks/ilp/report/overview/index.php', array('id'=>$courseid)));
 
 /// basic access checks
 if (!$course = $DB->get_record('course', array('id' => $courseid))) {
@@ -114,12 +114,7 @@ if (has_capability('moodle/grade:viewall', $systemcontext)) { //Admins will see 
         $report = new grade_report_overview($userid, $gpr, $context);
         print_grade_page_head($courseid, 'report', 'overview', get_string('pluginname', 'gradereport_overview'). ' - '.fullname($report->user));
         groups_print_course_menu($course, $gpr->get_return_url('index.php?id='.$courseid, array('userid'=>0)));
-
-        if ($user_selector) {
-            $renderer = $PAGE->get_renderer('gradereport_overview');
-            echo $renderer->graded_users_selector('overview', $course, $userid, $currentgroup, false);
-        }
-
+        
         if ($currentgroup and !groups_is_member($currentgroup, $userid)) {
             echo $OUTPUT->notification(get_string('groupusernotmember', 'error'));
         } else {
