@@ -69,7 +69,7 @@ class grade_report_overview extends grade_report {
         $this->user = $DB->get_record('user', array('id' => $userid));
 
         // base url for sorting by first/last name
-        $this->baseurl = $CFG->wwwroot.'/grade/overview/index.php?id='.$userid;
+        $this->baseurl = '/srv/www/htdocs/blocks/ilp/includes/grade/overview/index.php?id='.$userid;
         $this->pbarurl = $this->baseurl;
 
         $this->setup_table();
@@ -128,7 +128,7 @@ class grade_report_overview extends grade_report {
                 }
 
                 $courseshortname = format_string($course->shortname, true, array('context' => $coursecontext));
-                $courselink = html_writer::link(new moodle_url('/grade/report/user/index.php', array('id' => $course->id, 'userid' => $this->user->id)), $courseshortname);
+                $courselink = html_writer::link(new moodle_url('/blocks/ilp/report/user/index.php', array('id' => $course->id, 'userid' => $this->user->id)), $courseshortname);
                 $canviewhidden = has_capability('moodle/grade:viewhidden', $coursecontext);
 
                 // Get course grade_item
