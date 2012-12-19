@@ -17,7 +17,7 @@
 
 require_once '../../../../config.php';
 require_once $CFG->libdir.'/gradelib.php';
-require_once $CFG->dirroot.'/grade/lib.php';
+require_once '/srv/www/htdocs/blocks/ilp/includes/grade/lib.php';
 require_once 'lib.php';
 
 $courseid = required_param('course_id', PARAM_INT);
@@ -104,10 +104,6 @@ if (has_capability('moodle/grade:viewall', $systemcontext)) { //Admins will see 
 
         groups_print_course_menu($course, $gpr->get_return_url('index.php?id='.$courseid, array('userid'=>0)));
 
-        if ($user_selector) {
-            $renderer = $PAGE->get_renderer('gradereport_overview');
-            echo $renderer->graded_users_selector('overview', $course, $userid, $currentgroup, false);
-        }
         // do not list all users
 
     } else { // Only show one user's report
