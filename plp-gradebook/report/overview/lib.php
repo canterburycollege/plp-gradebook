@@ -240,3 +240,96 @@ function grade_report_overview_settings_definition(&$mform) {
 }
 
 
+/**
+ * Class extending overview report to open url's in new page.
+ * @uses grade_report_overview
+ * @package gradebook
+ */
+class grade_report_overview_target_blank extends grade_report_overview {
+    
+    /**
+     * Constructor. Instantiates new grade_report_overview object
+     * @param int $userid
+     * @param object $gpr grade plugin return tracking object
+     * @param string $context
+     */
+    public function __construct($userid, $gpr, $context) {
+        parent::__construct($userid, $gpr, $context);
+    }
+    
+    
+    public function fill_table() {
+        global $CFG, $DB, $OUTPUT;
+
+        // MDL-11679, only show user's courses instead of all courses
+        if ($courses = enrol_get_users_courses($this->user->id, false, 'id, shortname, showgrades')) {
+            $numusers = $this->get_numusers(false);
+
+            foreach ($courses as $course) {
+                if (!$course->showgrades) {
+                    continue;
+                }
+
+                $coursecontext = get_context_instance(CONTEXT_COURSE, $course->id);
+
+                if (!$course->visible && !has_capability('moodle/course:viewhiddencourses', $coursecontext)) {
+                    // The course is hidden and the user isn't allowed to see it
+                    continue;
+                }
+
+                $courseshortname = format_string($course->shortname, true, array('context' => $coursecontext));
+                // make url open in new page
+                $html_writer_attributes = array('target'=>'_blank');
+                $courselink = html_writer::link(new moodle_url('/blocks/ilp/report/user/index.php', array('id' => $course->id, 'userid' => $this->user->id)), $courseshortname, $html_writer_attributes);
+                $canviewhidden = has_capability('moodle/grade:viewhidden', $coursecontext);
+
+                // Get course grade_item
+                $course_item = grade_item::fetch_course_item($course->id);
+
+                // Get the stored grade
+                $course_grade = new grade_grade(array('itemid'=>$course_item->id, 'userid'=>$this->user->id));
+                $course_grade->grade_item =& $course_item;
+                $finalgrade = $course_grade->finalgrade;
+
+                if (!$canviewhidden and !is_null($finalgrade)) {
+                    if ($course_grade->is_hidden()) {
+                        $finalgrade = null;
+                    } else {
+                        $finalgrade = $this->blank_hidden_total($course->id, $course_item, $finalgrade);
+                    }
+                }
+
+                $data = array($courselink, grade_format_gradevalue($finalgrade, $course_item, true));
+
+                if (!$this->showrank) {
+                    //nothing to do
+
+                } else if (!is_null($finalgrade)) {
+                    /// find the number of users with a higher grade
+                    /// please note this can not work if hidden grades involved :-( to be fixed in 2.0
+                    $params = array($finalgrade, $course_item->id);
+                    $sql = "SELECT COUNT(DISTINCT(userid))
+                              FROM {grade_grades}
+                             WHERE finalgrade IS NOT NULL AND finalgrade > ?
+                                   AND itemid = ?";
+                    $rank = $DB->count_records_sql($sql, $params) + 1;
+
+                    $data[] = "$rank/$numusers";
+
+                } else {
+                    // no grade, no rank
+                    $data[] = '-';
+                }
+
+                $this->table->add_data($data);
+            }
+            return true;
+
+        } else {
+            echo $OUTPUT->notification(get_string('nocourses', 'grades'));
+            return false;
+        }
+    }
+    
+}
+
