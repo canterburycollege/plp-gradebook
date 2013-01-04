@@ -27,24 +27,47 @@ HTML template for Grabebook tab.
 <div class="clearfix"></div>
 <div class="reports-container">
     <div class="left-reports">
-        
+
         <?php 
-//get the current logged in user id.
-global $USER;
-$user_id = $USER->id;
-echo "Logged in user ID is: $user_id";
+        
+        require_once '../../../config.php';
+        require_once $CFG->libdir.'/gradelib.php';
+        require_once '/srv/www/htdocs/blocks/ilp/includes/grade/lib.php';
+        require_once '/srv/www/htdocs/blocks/ilp/report/overview/lib.php';
+        
+        global $USER, $PARSER, $DB;
 
-//check if user is allowed to view others ilp
-$context = get_context_instance(CONTEXT_SYSTEM);
-$access_viewotherilp = has_capability('block/ilp:viewotherilp', $context);
-if  ($access_viewotherilp==1) {$access_viewotherilp = "Yes";
-                               $id_source = $_GET['user_id'];} else {$access_viewotherilp = "No";
-                                                                      $id_source = $USER->id;}
-echo "<br>Can view other ILPs?: ".$access_viewotherilp;
-
-echo "<br>The user id we will use is ".$id_source;
-
-?>
+        //check if user is allowed to view others ilp
+        $context = get_context_instance(CONTEXT_SYSTEM);
+        $access_viewotherilp = has_capability('block/ilp:viewotherilp', $context);
+        if  ($access_viewotherilp==1) {
+            // this is a tutor
+            $access_viewotherilp = "Yes";
+            $userid = $_GET['user_id'];
+            $course_id = $PARSER->optional_param('course_id',0,PARAM_INT);
+        } else {
+            // this is a student
+            $access_viewotherilp = "No";
+            $userid = $USER->id;
+            $course_id = 1;
+        }
+        
+        
+        if (!$course = $DB->get_record('course', array('id' => $course_id))) {
+            print_error('nocourseid');
+        }
+        $context = get_context_instance(CONTEXT_COURSE, $course->id);
+        
+        // return tracking object
+        $gpr = new grade_plugin_return(array('type'=>'report', 'plugin'=>'overview', 'courseid'=>$course->id, 'userid'=>$userid));
+        
+        // create report instance
+        $report = new grade_report_overview_target_blank($userid, $gpr, $context);
+        // print the page
+        if ($report->fill_table()) {
+            echo '<br />'.$report->print_table(true);
+        }
+        ?>
 
     </div>
 
