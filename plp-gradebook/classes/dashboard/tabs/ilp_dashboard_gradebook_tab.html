@@ -43,17 +43,14 @@ HTML template for Grabebook tab.
         if  ($access_viewotherilp==1) {
             // this is a tutor
             $access_viewotherilp = "Yes";
-            $id_source = $_GET['user_id'];
             $userid = $_GET['user_id'];
+            $course_id = $PARSER->optional_param('course_id',0,PARAM_INT);
         } else {
             // this is a student
             $access_viewotherilp = "No";
-            $id_source = $USER->id;
             $userid = $USER->id;
+            $course_id = 1;
         }
-        
-        $course_id = $PARSER->optional_param('course_id',0,PARAM_INT);
-
         
         
         if (!$course = $DB->get_record('course', array('id' => $course_id))) {
