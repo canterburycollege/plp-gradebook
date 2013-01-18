@@ -306,6 +306,10 @@ class grade_report_user extends grade_report {
         $eid = $grade_object->id;
         $element['userid'] = $this->user->id;
         $fullname = $this->gtree->get_element_header($element, true, true, true);
+        // quick fix to stop drilldown on SCORM modules
+        if (strpos($fullname,'SCORM')){
+            $fullname = ' ';
+        }
         $data = array();
         $hidden = '';
         $excluded = '';
