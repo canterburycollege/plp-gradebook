@@ -18,7 +18,8 @@
 require_once '../../../../config.php';
 require_once $CFG->libdir.'/gradelib.php';
 require_once '/srv/www/htdocs/blocks/ilp/includes/grade/lib.php';
-require_once $CFG->dirroot.'/grade/report/user/lib.php';
+//require_once $CFG->dirroot.'/grade/report/user/lib.php';
+require_once 'lib.php';
 
 $courseid = required_param('id', PARAM_INT);
 $userid   = optional_param('userid', $USER->id, PARAM_INT);
