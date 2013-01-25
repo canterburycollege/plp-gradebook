@@ -308,7 +308,10 @@ class grade_report_user extends grade_report {
         $fullname = $this->gtree->get_element_header($element, true, true, true);
         // quick fix to stop drilldown on SCORM modules
         if (strpos($fullname,'SCORM')){
-            $fullname = ' ';
+            $pattern = "/alt=\"SCORM package\"\/>(.*?)<\/a>/";
+            //echo $fullname;
+            preg_match($pattern , $fullname, $matches);
+            $fullname = $matches[1];
         }
         $data = array();
         $hidden = '';
