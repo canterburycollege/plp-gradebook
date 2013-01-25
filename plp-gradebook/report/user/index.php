@@ -18,7 +18,8 @@
 require_once '../../../../config.php';
 require_once $CFG->libdir.'/gradelib.php';
 require_once '/srv/www/htdocs/blocks/ilp/includes/grade/lib.php';
-require_once $CFG->dirroot.'/grade/report/user/lib.php';
+//require_once $CFG->dirroot.'/grade/report/user/lib.php';
+require_once 'lib.php';
 
 $courseid = required_param('id', PARAM_INT);
 $userid   = optional_param('userid', $USER->id, PARAM_INT);
@@ -79,7 +80,7 @@ grade_regrade_final_grades($courseid);
 if (has_capability('moodle/grade:viewall', $context)) { //Teachers will see all student reports
     $groupmode    = groups_get_course_groupmode($course);   // Groups are being used
     $currentgroup = groups_get_course_group($course, true);
-
+    
     if (!$currentgroup) {      // To make some other functions work better later
         $currentgroup = NULL;
     }
@@ -99,7 +100,8 @@ if (has_capability('moodle/grade:viewall', $context)) { //Teachers will see all 
         $gui->init();
         // Add tabs
         print_grade_page_head($courseid, 'report', 'user');
-        groups_print_course_menu($course, $gpr->get_return_url('index.php?id='.$courseid, array('userid'=>0)));
+        // do not render separate groups select
+        ##groups_print_course_menu($course, $gpr->get_return_url('index.php?id='.$courseid, array('userid'=>0)));
 
         if ($user_selector) {
             $renderer = $PAGE->get_renderer('gradereport_user');
@@ -124,7 +126,8 @@ if (has_capability('moodle/grade:viewall', $context)) { //Teachers will see all 
 
         $studentnamelink = html_writer::link(new moodle_url('/user/view.php', array('id' => $report->user->id, 'course' => $courseid)), fullname($report->user));
         print_grade_page_head($courseid, 'report', 'user', get_string('pluginname', 'gradereport_user') . ' - ' . $studentnamelink);
-        groups_print_course_menu($course, $gpr->get_return_url('index.php?id='.$courseid, array('userid'=>0)));
+        // do not render separate groups select
+        ##groups_print_course_menu($course, $gpr->get_return_url('index.php?id='.$courseid, array('userid'=>0)));
 
         if ($currentgroup and !groups_is_member($currentgroup, $userid)) {
             echo $OUTPUT->notification(get_string('groupusernotmember', 'error'));
