@@ -20,7 +20,7 @@ require_once $CFG->libdir.'/gradelib.php';
 require_once '/srv/www/htdocs/blocks/ilp/includes/grade/lib.php';
 require_once 'lib.php';
 
-$courseid = required_param('course_id', PARAM_INT);
+$courseid = optional_param('course_id', '1', PARAM_INT);
 $userid   = optional_param('userid', $USER->id, PARAM_INT);
 
 $PAGE->set_url(new moodle_url('/blocks/ilp/report/overview/index.php', array('id'=>$courseid)));
